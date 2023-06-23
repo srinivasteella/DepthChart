@@ -1,0 +1,187 @@
+{
+  "SportType": 0,
+  "Id": 1,
+  "TeamNumber": 1,
+  "DChartType": "Offense",
+  "Data": {
+    "C": [
+      {
+        "PositionType": 4,
+        "Player": {
+          "No": 12,
+          "Name": "Tom Brady"
+        }
+      },
+      {
+        "PositionType": 4,
+        "Player": {
+          "No": 11,
+          "Name": "Blaine Gabbert"
+        }
+      },
+      {
+        "PositionType": 4,
+        "Player": {
+          "No": 2,
+          "Name": "Kyle Trask"
+        }
+      },
+      {
+        "PositionType": 4,
+        "Player": {
+          "No": 20,
+          "Name": "Srini"
+        }
+      }
+    ],
+    "LWR": [
+      {
+        "PositionType": 0,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        },
+
+      },
+      {
+        "PositionType": 0,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ],
+    "RWR": [
+      {
+        "PositionType": 1,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        },
+
+      },
+      {
+        "PositionType": 1,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ],
+    "LT": [
+      {
+        "PositionType": 2,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        },
+
+      },
+      {
+        "PositionType": 2,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ],
+    "LG": [
+      {
+        "PositionType": 3,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        },
+
+      },
+      {
+        "PositionType": 3,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ],
+    "RG": [
+      {
+        "PositionType": 5,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        }
+      },
+      {
+        "PositionType": 5,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ],
+    "RT": [
+      {
+        "PositionType": 6,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        },
+
+      },
+      {
+        "PositionType": 6,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ],
+    "TE": [
+      {
+        "PositionType": 7,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        }
+      },
+      {
+        "PositionType": 7,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ],
+    "QB": [
+      {
+        "PositionType": 8,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        }
+      },
+      {
+        "PositionType": 8,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ],
+    "RB": [
+      {
+        "PositionType": 9,
+        "Player": {
+          "No": 13,
+          "Name": "Evans"
+        }
+      },
+      {
+        "PositionType": 9,
+        "Player": {
+          "No": 1,
+          "Name": "Daren"
+        }
+      }
+    ]
+  }
+}
