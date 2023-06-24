@@ -1,14 +1,17 @@
 ﻿using DepthChart.Models;
+using DepthChart.Team.Model;
 using Newtonsoft.Json;
+using Player = DepthChart.Team.Model.Player;
+using TeamPlayer = DepthChart.Models.Player;
 
 namespace DepthChart.Service
 {
     public interface IService
     {
-        Task<Player> addPlayerToDepthChart(Position position);
-        Task<Player> removePlayerFromDepthChart(Position position);
-        Task<Player> getBackups(Position position);
-        Task<IEnumerable<Data>> getFullDepthChart();
+        bool addPlayerToDepthChart(AddPlayerToDepthChart newplayer);
+        Player removePlayerFromDepthChart(RemovePlayerFromDepthChart playertoberemoved);
+        IEnumerable<TeamPlayer> getBackups(ChartBackup playerbackup);
+        TeamDepthChart getFullDepthChart();
 
 
     }
@@ -16,39 +19,116 @@ namespace DepthChart.Service
 
     public class NFLService : INFLService
     {
-        NFL nflDepthChart;
+        public NFLDepthChart nflDepthChart;
+        public NFLTeam nflTeam;
         public NFLService()
         {
-            nflDepthChart = GetDepthChart();
+            nflDepthChart = GetNFLDepthChart();
+            nflTeam = GetNFLTeam();
         }
-        public Task<Player> addPlayerToDepthChart(Position position)
+        public bool addPlayerToDepthChart(AddPlayerToDepthChart newplayer)
         {
-            //var result = nflDepthChart.Data.GetType().GetProperty(position.PositionType.ToString());
-            int index = CheckIfPlayerAlreadyPresent(nflDepthChart.Data.LWR,position.Player.Name);
-            if (index == -1) AddPlayer(position);
-            else InsertPlayer(index,position);
+            Player _player = GetPlayerByName(newplayer.Name, newplayer.TeamName);
+            if (_player == null) return false;
+
+            Position _position = getPlayerPosition(newplayer);
+
+            if (_position == null) return false;
+
+            int index = CheckIfPlayerAlreadyPresent(_position,_player.name);
+
+            if (index == -1) {
+                if (CheckIfTheDepthIsEqualorMoreThanRequestedDepth(_position, newplayer.Depth))
+                    AddPlayer(_player, newplayer);
+                else
+                    InsertPlayer(newplayer.Depth, _player, newplayer);
+            }
+            else
+            {
+                if (!CheckIfThePlayerDepthAndRequestedDepthSame(index, newplayer.Depth))
+                {
+                    RemovePlayer(index,newplayer);
+                    if (CheckIfTheDepthIsEqualorMoreThanRequestedDepth(_position, newplayer.Depth))
+                        AddPlayer(_player, newplayer);
+                    else
+                        InsertPlayer(newplayer.Depth, _player, newplayer);
+                }
+            }
+            return true;
         }
 
-        public Task<Player> getBackups(Position position)
+        public IEnumerable<TeamPlayer> getBackups(ChartBackup playerbackup)
         {
-            throw new NotImplementedException();
+            Player _player = GetPlayerByName(playerbackup.Name, playerbackup.TeamName);
+            if (_player == null) return new List<TeamPlayer>();
+
+            Position _position = getPlayerPosition(playerbackup);
+
+            if (_position == null) return new List<TeamPlayer>();
+
+            int index = CheckIfPlayerAlreadyPresent(_position, _player.name);
+            if (index != -1)
+            {
+                return _position.Players.Skip(index + 1);
+            }
+            return new List<TeamPlayer>();
         }
 
-        public Task<IEnumerable<Data>> getFullDepthChart()
+        public TeamDepthChart getFullDepthChart()
         {
-            throw new NotImplementedException();
+            return GetNFLDepthChart();
         }
 
-        public Task<Player> removePlayerFromDepthChart(Position position)
+        public Player removePlayerFromDepthChart(RemovePlayerFromDepthChart playertoberemoved)
         {
-            throw new NotImplementedException();
+            Player _player = GetPlayerByName(playertoberemoved.Name, playertoberemoved.TeamName);
+            if (_player == null) return new Player();
+
+            Position _position = getPlayerPosition(playertoberemoved);
+
+            if (_position == null) return new Player();
+
+            int index = CheckIfPlayerAlreadyPresent(_position, _player.name);
+
+            if (index != -1)
+            {
+                RemovePlayer(index,playertoberemoved);
+                SaveChanges();
+                return _player;
+            }
+            return new Player();
         }
 
-        private bool AddPlayer(Position position)
+        public Position getPlayerPosition(DepthChartOpsInput input)
+        {
+            return nflDepthChart.Teams.Find(t => t.TeamName == input.TeamName)?.DepthCharts.Find(d => d.ChartType == input.ChartType)
+                ?.Position.Find(p => p.Type == input.Position);
+        }
+
+        private bool CheckIfTheDepthIsEqualorMoreThanRequestedDepth(Position position,int depth)
+        {
+            
+            if (position.Players.Count <= depth)
+                return true;
+            else
+                return false;
+        }
+
+        private bool CheckIfThePlayerDepthAndRequestedDepthSame(int currentDepth, int requestedDepth)
+        {
+            if (currentDepth == requestedDepth)
+                return true;
+            else
+                return false;
+        }
+
+        private bool AddPlayer(Player player, AddPlayerToDepthChart newplayer)
         {
             try
             {
-                nflDepthChart.Data.LWR.Add((LWR)position);
+                nflDepthChart.Teams.Find(t => t.TeamName == newplayer.TeamName)?.DepthCharts.Find(d => d.ChartType == newplayer.ChartType)
+                ?.Position.Find(p => p.Type == newplayer.Position)?.Players.Add(new TeamPlayer { name = player.name, number = player.number });
+                SaveChanges();
                 return true;
             }
             catch
@@ -57,11 +137,13 @@ namespace DepthChart.Service
             }
         }
 
-        private bool InsertPlayer(int index, Position position)
+        private bool InsertPlayer(int index, Player player, AddPlayerToDepthChart newplayer)
         {
             try
             {
-                nflDepthChart.Data.LWR.Insert(index,(LWR)position);
+                nflDepthChart.Teams.Find(t => t.TeamName == newplayer.TeamName)?.DepthCharts.Find(d => d.ChartType == newplayer.ChartType)
+               ?.Position.Find(p => p.Type == newplayer.Position)?.Players.Insert(index,new TeamPlayer { name = player.name, number = player.number });
+                SaveChanges();
                 return true;
             }
             catch
@@ -70,17 +152,23 @@ namespace DepthChart.Service
             }
         }
 
-        private bool RemovePlayer(int index)
+        private bool RemovePlayer(int index, DepthChartOpsInput input)
         {
             try
             {
-                nflDepthChart.Data.LWR.RemoveAt(index);
+                nflDepthChart.Teams.Find(t => t.TeamName == input.TeamName)?.DepthCharts.Find(d => d.ChartType == input.ChartType)
+              ?.Position.Find(p => p.Type == input.Position)?.Players.RemoveAt(index);               
                 return true;
             }
             catch
             {
                 return false;
             }
+        }
+
+        private Player GetPlayerByName(string name,string teamname)
+        {
+            return nflTeam.Teams.Find(f => f.TeamName == teamname)?.players.FirstOrDefault(p => p.name == name);
         }
 
         private void SaveChanges()
@@ -90,15 +178,19 @@ namespace DepthChart.Service
         }
 
 
-        private int CheckIfPlayerAlreadyPresent(List<LWR> data,string playerName)
+        private int CheckIfPlayerAlreadyPresent(Position position,string playerName)
         {
-            int index = data.FindIndex(a => a.Player.Name == playerName);
-            return index;
+            return position.Players.FindIndex(p => p.name == playerName);
         }
 
-        private NFL GetDepthChart()
+        private NFLDepthChart GetNFLDepthChart()
         {
-            return JsonConvert.DeserializeObject<NFL>(File.ReadAllText("NFLDepthChart.json"));
+            return JsonConvert.DeserializeObject<NFLDepthChart>(File.ReadAllText("NFLDepthChart.json"));
+        }
+
+        private NFLTeam GetNFLTeam()
+        {
+            return JsonConvert.DeserializeObject<NFLTeam>(File.ReadAllText("NFLPlayers.json"));
         }
     }
 }

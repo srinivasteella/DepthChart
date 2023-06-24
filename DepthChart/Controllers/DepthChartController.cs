@@ -21,20 +21,20 @@ namespace DepthChart.Controllers
         }
 
         [HttpPost("AddPlayer")]
-        public async Task<IActionResult> AddPlayerToDepthChart([FromBody] AddPlayer player)
+        public IActionResult AddPlayerToDepthChart([FromBody] AddPlayerToDepthChart player)
         {
             if (player == null || !ModelState.IsValid) return BadRequest(ModelState);
-            Player _player = new Player();
+            bool isAddPlayerSuccess;
             try
             {
-                _player = await _dservice.addPlayerToDepthChart(player);
+                isAddPlayerSuccess = _dservice.addPlayerToDepthChart(player);
             }
             catch (AggregateException)
             {
                 return BadRequest();//shout/catch/throw/log
             }
 
-            return Ok(_player);
+            return Ok(isAddPlayerSuccess);
         }
 
         //[HttpGet]

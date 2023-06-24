@@ -1,0 +1,62 @@
+{
+  "Teams": [
+    {
+      "TeamName": "Team1",
+      "players": [
+        {
+          "number": "12",
+          "name": "Tom Brady"
+        },
+        {
+          "number": "11",
+          "name": "Blaine Gabbert"
+        },
+        {
+          "number": "2",
+          "name": "Kyle Trask"
+        },
+        {
+          "number": "13",
+          "name": "Mike Evans"
+        },
+        {
+          "number": "1",
+          "name": "Jaelon Darden"
+        },
+        {
+          "number": "10",
+          "name": "Scott Miller"
+        }
+      ]
+    },
+    {
+      "TeamName": "Team2",
+      "players": [
+        {
+          "number": "12",
+          "name": "Tom Brady"
+        },
+        {
+          "number": "11",
+          "name": "Blaine Gabbert"
+        },
+        {
+          "number": "2",
+          "name": "Kyle Trask"
+        },
+        {
+          "number": "13",
+          "name": "Mike Evans"
+        },
+        {
+          "number": "1",
+          "name": "Jaelon Darden"
+        },
+        {
+          "number": "10",
+          "name": "Scott Miller"
+        }
+      ]
+    }
+  ]
+}

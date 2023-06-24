@@ -1,38 +1,33 @@
 ﻿using DepthChart.Models;
-using Newtonsoft.Json.Linq;
 
 namespace DepthChart.Service
 {
     public interface IDepthChartService
     {
-        Task<Player> addPlayerToDepthChart(AddPlayer position);
-        Task<Player> removePlayerFromDepthChart(AddPlayer position);
-        Task<Player> getBackups(AddPlayer position);
-        Task<IEnumerable<Data>> getFullDepthChart();
+        bool addPlayerToDepthChart(AddPlayerToDepthChart player);
+        //Task<Player> removePlayerFromDepthChart(AddPlayer position);
+        //Task<Player> getBackups(AddPlayer position);
+        //Task<IEnumerable<Data>> getFullDepthChart();
     }
 
     public class DepthChartService : IDepthChartService
     {
-        IPositionConverter _positionConverter;
-        ISportConverter _sportConverter;
-
         INFLService _nflService;
         Dictionary<SportType, IService> sportServiceDict = new Dictionary<SportType, IService>();
-        public DepthChartService(IPositionConverter positionConverter,INFLService nflSerivce,ISportConverter sportConverter)
+        public DepthChartService(INFLService nflSerivce)
         {
-            _positionConverter = positionConverter;
             _nflService = nflSerivce;
-            _sportConverter = sportConverter;
             sportServiceDict.Add(SportType.NFL, _nflService);
 
         }
-        public async Task<Player> addPlayerToDepthChart(AddPlayer player)
+        public bool addPlayerToDepthChart(AddPlayerToDepthChart player)
         {
             try
             {
-                Position _position = _positionConverter.Convert(player);
-                if (_position != null)
-                    return sportServiceDict.ContainsKey(player.sportType) ? await sportServiceDict[player.sportType].addPlayerToDepthChart(_position) : throw new NotImplementedException();
+                SportType _sportType = GetSportType(player.SportType);
+                PositionType _positionType = GetPositionType(player.Position);
+                if (_sportType != null && _positionType != null)
+                    return sportServiceDict.ContainsKey(_sportType) ? sportServiceDict[_sportType].addPlayerToDepthChart(player) : throw new NotImplementedException();
 
                 else throw new NotImplementedException();
             }
@@ -42,20 +37,33 @@ namespace DepthChart.Service
             }
         }
 
-        public Task<Player> getBackups(AddPlayer position)
+        //public Task<Player> getBackups(AddPlayer position)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IEnumerable<Data>> getFullDepthChart()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<Player> removePlayerFromDepthChart(AddPlayer position)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public SportType GetSportType(string sportType)
         {
-            throw new NotImplementedException();
+            SportType enumName;
+            Enum.TryParse(sportType, true, out enumName);
+            return enumName;
         }
 
-        public Task<IEnumerable<Data>> getFullDepthChart()
+        public PositionType GetPositionType(string positionType)
         {
-            throw new NotImplementedException();
+            PositionType enumName;
+            Enum.TryParse(positionType, true, out enumName);
+            return enumName;
         }
-
-        public Task<Player> removePlayerFromDepthChart(AddPlayer position)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }
