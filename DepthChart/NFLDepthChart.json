@@ -12,12 +12,16 @@
               "Type": "C",
               "Players": [
                 {
-                  "number": "12",
-                  "name": "Tom Brady"
+                  "number": "13",
+                  "name": "Mike Evans"
                 },
                 {
-                  "number": "11",
-                  "name": "Blaine Gabbert"
+                  "number": "1",
+                  "name": "Jaelon Darden"
+                },
+                {
+                  "number": "12",
+                  "name": "Tom Brady"
                 },
                 {
                   "number": "2",
@@ -29,12 +33,12 @@
               "Type": "LWR",
               "Players": [
                 {
-                  "number": "13",
-                  "name": "Mike Evans"
-                },
-                {
                   "number": "1",
                   "name": "Jaelon Darden"
+                },
+                {
+                  "number": "13",
+                  "name": "Mike Evans"
                 },
                 {
                   "number": "10",
@@ -46,5 +50,5 @@
         }
       ]
     }
-  ]  
+  ]
 }

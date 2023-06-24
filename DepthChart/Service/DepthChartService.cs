@@ -1,17 +1,18 @@
 ﻿using DepthChart.Models;
-
+using Player = DepthChart.Team.Model.Player;
+using TeamPlayer = DepthChart.Models.Player;
 namespace DepthChart.Service
 {
     public interface IDepthChartService
     {
         bool addPlayerToDepthChart(AddPlayerToDepthChart player);
-        //Task<Player> removePlayerFromDepthChart(AddPlayer position);
-        //Task<Player> getBackups(AddPlayer position);
-        //Task<IEnumerable<Data>> getFullDepthChart();
+        Player removePlayerFromDepthChart(RemovePlayerFromDepthChart playertoberemoved);
+        IEnumerable<TeamPlayer> getBackups(ChartBackup playerbackup);
+        TeamDepthChart getFullDepthChart(string sporttype);
     }
 
     public class DepthChartService : IDepthChartService
-    {
+    {        
         INFLService _nflService;
         Dictionary<SportType, IService> sportServiceDict = new Dictionary<SportType, IService>();
         public DepthChartService(INFLService nflSerivce)
@@ -26,40 +27,61 @@ namespace DepthChart.Service
             {
                 SportType _sportType = GetSportType(player.SportType);
                 PositionType _positionType = GetPositionType(player.Position);
-                if (_sportType != null && _positionType != null)
-                    return sportServiceDict.ContainsKey(_sportType) ? sportServiceDict[_sportType].addPlayerToDepthChart(player) : throw new NotImplementedException();
-
-                else throw new NotImplementedException();
+                if (_sportType != SportType.NONE && _positionType != PositionType.NONE)
+                    return sportServiceDict.ContainsKey(_sportType) ? sportServiceDict[_sportType].addPlayerToDepthChart(player) : false;                
             }
-            catch (Exception e)
-            {
-                throw new Exception();
-            }
+            catch  { /*log exception*/ }
+            return false;
         }
 
-        //public Task<Player> getBackups(AddPlayer position)
-        //{
-        //    throw new NotImplementedException();
-        //}
+       
 
-        //public Task<IEnumerable<Data>> getFullDepthChart()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public Player removePlayerFromDepthChart(RemovePlayerFromDepthChart playertoberemoved)
+        {
+            try
+            {
+                SportType _sportType = GetSportType(playertoberemoved.SportType);
+                PositionType _positionType = GetPositionType(playertoberemoved.Position);
+                if (_sportType != SportType.NONE && _positionType != PositionType.NONE)
+                    return sportServiceDict.ContainsKey(_sportType) ? sportServiceDict[_sportType].removePlayerFromDepthChart(playertoberemoved) : new Player();               
+            }
+            catch { /*log exception*/ }
+            return new Player();
+        }
 
-        //public Task<Player> removePlayerFromDepthChart(AddPlayer position)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IEnumerable<TeamPlayer> getBackups(ChartBackup playerbackup)
+        {
+            try
+            {
+                SportType _sportType = GetSportType(playerbackup.SportType);
+                PositionType _positionType = GetPositionType(playerbackup.Position);
+                if (_sportType != SportType.NONE && _positionType != PositionType.NONE)
+                    return sportServiceDict.ContainsKey(_sportType) ? sportServiceDict[_sportType].getBackups(playerbackup) : new List<TeamPlayer>();
+            }
+            catch { /*log exception*/ }
+            return new List<TeamPlayer>();
+        }
 
-        public SportType GetSportType(string sportType)
+        public TeamDepthChart getFullDepthChart(string sporttype)
+        {
+            try
+            {
+                SportType _sportType = GetSportType(sporttype);
+                if (_sportType != SportType.NONE)
+                    return sportServiceDict.ContainsKey(_sportType) ? sportServiceDict[_sportType].getFullDepthChart() : new TeamDepthChart();
+            }
+            catch { /*log exception*/ }
+            return new TeamDepthChart();
+        }
+
+        private SportType GetSportType(string sportType)
         {
             SportType enumName;
             Enum.TryParse(sportType, true, out enumName);
             return enumName;
         }
 
-        public PositionType GetPositionType(string positionType)
+        private PositionType GetPositionType(string positionType)
         {
             PositionType enumName;
             Enum.TryParse(positionType, true, out enumName);
