@@ -21,6 +21,105 @@ This Depth Chart API allows Add and Remove and provides the official player rank
 >GetBackUp
 
 ```
+### Input/Output
+
+Please see the **NFLPlayers.json** and **NFLDepthChart.json** in the DepthChart solution for the allowed list of players, teams, sports and positions. 
+### Sample Input/Output as shown below
+### AddPlayerToDepthChart
+
+#### Input 
+```
+{
+  "position": "c",
+  "name": "mike evans",
+  "sportType": "nfl",
+  "teamName": "team1",
+  "chartType": "offense",
+  "depth": 0
+}
+```
+#### Output
+```
+True or False
+```
+### RemovePlayerToDepthChart
+
+#### Input 
+```
+{
+  "position": "c",
+  "name": "mike evans",
+  "sportType": "nfl",
+  "teamName": "team1",
+  "chartType": "offense"
+}
+```
+#### Output
+```
+{
+"number":"13",
+"name":"mike evans"
+}
+or
+[]
+```
+
+### GetBackup
+
+#### Input 
+```
+{
+  "position": "c",
+  "name": "mike evans",
+  "sportType": "nfl",
+  "teamName": "team1",
+  "chartType": "offense"
+}
+```
+#### Output
+```
+[{
+"number":"12",
+"name":"tom brady"
+}]
+or
+[]
+```
+
+### GetFullDepthChart
+
+#### Input 
+```
+sporttype as string for ex: NFL
+```
+#### Output
+```
+{
+  "SportType": "NFL",
+  "Id": 1,
+  "Teams": [
+    {
+      "TeamName": "Team1",
+      "DepthCharts": [
+        {
+          "ChartType": "Offense",
+          "Position": [
+            {
+              "Type": "C",
+              "Players": [
+                {
+                  "number": "13",
+                  "name": "Mike Evans"
+                }
+              ]
+            } ]
+        }
+      ]
+    }
+}
+or
+[]
+```
 
 ### Setup detail
 
@@ -52,12 +151,3 @@ This Depth Chart API allows Add and Remove and provides the official player rank
 ##### (C) To run the unit test project
 >   1. Open solution in **Visual Studio 2022**
 >   2. Select Test Project -> Run Tests
-
-##### API { Swagger Page }
-<img width="848" alt="DepthChartSwagger" src="https://github.com/srinivasteella/DepthChart/assets/37522670/f3dd0ec8-c760-4d06-a6fc-3822499316a2">
-<img width="550" alt="FullDepthChart" src="https://github.com/srinivasteella/DepthChart/assets/37522670/90f270a7-3fde-40a8-a3b6-f515cacadffb">
-<img width="541" alt="AddPlayer" src="https://github.com/srinivasteella/DepthChart/assets/37522670/1422ae74-32c1-4f82-a207-e0d97eb5127f">
-<img width="541" alt="RemovePlayer" src="https://github.com/srinivasteella/DepthChart/assets/37522670/d89dd260-bc0b-4d5a-8b96-0517eae506ff">
-<img width="542" alt="GetBackup" src="https://github.com/srinivasteella/DepthChart/assets/37522670/f6988b22-2e9c-44d6-a758-52b8442d6b5e">
-
-
