@@ -1,3 +1,5 @@
+<img width="550" alt="FullDepthChart" src="https://github.com/srinivasteella/DepthChart/assets/37522670/90f270a7-3fde-40a8-a3b6-f515cacadffb">
+![Uploading DepthChartSwagger.PNG…]()
 
 ## Depth Chart API
 
@@ -55,14 +57,7 @@ This Depth Chart API allows Add and Remove and provides the official player rank
 >   2. Select Test Project -> Run Tests
 
 ##### API { Swagger Page }
-
-![Home](https://github.com/srinivasteella/DepthChart/blob/master/DepthChartSwagger.PNG")
-
-![AddPlayer](https://github.com/srinivasteella/DepthChart/blob/master/AddPlayer.PNG)
-
-![RemovePlayer](https://github.com/srinivasteella/DepthChart/blob/master/RemovePlayer.PNG)
-
-![GetBackup](https://github.com/srinivasteella/DepthChart/blob/master/GetBackup.PNG)
-
-![FullDepthChart](https://github.com/srinivasteella/DepthChart/blob/master/FullDepthChart.PNG)
-
+![Uploading GetBackup.PNG…]()
+![Uploading RemovePlayer.PNG…]()
+![Uploading AddPlayer.PNG…]()
+![Uploading DepthChartSwagger.PNG…]()
