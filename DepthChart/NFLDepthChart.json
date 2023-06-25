@@ -10,41 +10,93 @@
           "Position": [
             {
               "Type": "C",
-              "Players": [
-                {
-                  "number": "13",
-                  "name": "Mike Evans"
-                },
-                {
-                  "number": "1",
-                  "name": "Jaelon Darden"
-                },
-                {
-                  "number": "12",
-                  "name": "Tom Brady"
-                },
-                {
-                  "number": "2",
-                  "name": "Kyle Trask"
-                }
-              ]
+              "Players": []
             },
             {
               "Type": "LWR",
-              "Players": [
-                {
-                  "number": "1",
-                  "name": "Jaelon Darden"
-                },
-                {
-                  "number": "13",
-                  "name": "Mike Evans"
-                },
-                {
-                  "number": "10",
-                  "name": "Scott Miller"
-                }
-              ]
+              "Players": []
+            },
+            {
+              "Type": "RWR",
+              "Players": []
+            },
+            {
+              "Type": "LT",
+              "Players": []
+            },
+            {
+              "Type": "LG",
+              "Players": []
+            },
+            {
+              "Type": "RC",
+              "Players": []
+            },
+            {
+              "Type": "RT",
+              "Players": []
+            },
+            {
+              "Type": "TE",
+              "Players": []
+            },
+            {
+              "Type": "QB",
+              "Players": []
+            },
+            {
+              "Type": "RB",
+              "Players": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TeamName": "Team2",
+      "DepthCharts": [
+        {
+          "ChartType": "Offense",
+          "Position": [
+            {
+              "Type": "C",
+              "Players": []
+            },
+            {
+              "Type": "LWR",
+              "Players": []
+            },
+            {
+              "Type": "RWR",
+              "Players": []
+            },
+            {
+              "Type": "LT",
+              "Players": []
+            },
+            {
+              "Type": "LG",
+              "Players": []
+            },
+            {
+              "Type": "RC",
+              "Players": []
+            },
+            {
+              "Type": "RT",
+              "Players": []
+            },
+            {
+              "Type": "TE",
+              "Players": []
+            },
+            {
+              "Type": "QB",
+              "Players": []
+            },
+            {
+              "Type": "RB",
+              "Players": []
             }
           ]
         }

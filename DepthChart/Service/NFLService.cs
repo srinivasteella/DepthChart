@@ -1,6 +1,7 @@
 ﻿using DepthChart.Models;
 using DepthChart.Team.Model;
 using Newtonsoft.Json;
+using System.Text;
 using Player = DepthChart.Team.Model.Player;
 using TeamPlayer = DepthChart.Models.Player;
 
@@ -35,10 +36,9 @@ namespace DepthChart.Service
 
             if (_position == null) return false;
 
-            int index = CheckIfPlayerAlreadyPresent(_position, _player.name);
+            int index = CheckIfPlayerAlreadyPresent(_position,_player.name);
 
-            if (index == -1)
-            {
+            if (index == -1) {
                 if (CheckIfTheDepthIsEqualorMoreThanRequestedDepth(_position, newplayer.Depth))
                     AddPlayer(_player, newplayer);
                 else
@@ -48,7 +48,7 @@ namespace DepthChart.Service
             {
                 if (!CheckIfThePlayerDepthAndRequestedDepthSame(index, newplayer.Depth))
                 {
-                    RemovePlayer(index, newplayer);
+                    RemovePlayer(index,newplayer);
                     if (CheckIfTheDepthIsEqualorMoreThanRequestedDepth(_position, newplayer.Depth))
                         AddPlayer(_player, newplayer);
                     else
@@ -93,7 +93,7 @@ namespace DepthChart.Service
 
             if (index != -1)
             {
-                RemovePlayer(index, playertoberemoved);
+                RemovePlayer(index,playertoberemoved);
                 SaveChanges();
                 return _player;
             }
@@ -106,9 +106,9 @@ namespace DepthChart.Service
                 ?.Position.Find(p => p.Type.Equals(input.Position, StringComparison.OrdinalIgnoreCase));
         }
 
-        private bool CheckIfTheDepthIsEqualorMoreThanRequestedDepth(Position position, int depth)
+        private bool CheckIfTheDepthIsEqualorMoreThanRequestedDepth(Position position,int depth)
         {
-
+            
             if (position.Players.Count <= depth)
                 return true;
             else
@@ -143,7 +143,7 @@ namespace DepthChart.Service
             try
             {
                 nflDepthChart.Teams.Find(t => t.TeamName.Equals(newplayer.TeamName, StringComparison.OrdinalIgnoreCase))?.DepthCharts.Find(d => d.ChartType.Equals(newplayer.ChartType, StringComparison.OrdinalIgnoreCase))
-               ?.Position.Find(p => p.Type.Equals(newplayer.Position, StringComparison.OrdinalIgnoreCase))?.Players.Insert(index, new TeamPlayer { name = player.name, number = player.number });
+               ?.Position.Find(p => p.Type.Equals(newplayer.Position, StringComparison.OrdinalIgnoreCase))?.Players.Insert(index,new TeamPlayer { name = player.name, number = player.number });
                 SaveChanges();
                 return true;
             }
@@ -158,7 +158,7 @@ namespace DepthChart.Service
             try
             {
                 nflDepthChart.Teams.Find(t => t.TeamName.Equals(input.TeamName, StringComparison.OrdinalIgnoreCase))?.DepthCharts.Find(d => d.ChartType.Equals(input.ChartType, StringComparison.OrdinalIgnoreCase))
-              ?.Position.Find(p => p.Type.Equals(input.Position, StringComparison.OrdinalIgnoreCase))?.Players.RemoveAt(index);
+              ?.Position.Find(p => p.Type.Equals(input.Position, StringComparison.OrdinalIgnoreCase))?.Players.RemoveAt(index);               
                 return true;
             }
             catch
@@ -167,9 +167,9 @@ namespace DepthChart.Service
             }
         }
 
-        private Player? GetPlayerByName(string name, string teamname)
+        private Player? GetPlayerByName(string name,string teamname)
         {
-            return nflTeam.Teams.Find(f => f.TeamName.Equals(teamname, StringComparison.OrdinalIgnoreCase))?.players.FirstOrDefault(p => p.name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            return nflTeam.Teams.Find(f => f.TeamName.Equals(teamname, StringComparison.OrdinalIgnoreCase))?.players.FirstOrDefault(p => p.name.Equals(name,StringComparison.InvariantCultureIgnoreCase));
         }
 
         private void SaveChanges()
@@ -179,19 +179,31 @@ namespace DepthChart.Service
         }
 
 
-        private int CheckIfPlayerAlreadyPresent(Position position, string playerName)
+        private int CheckIfPlayerAlreadyPresent(Position position,string playerName)
         {
-            return position.Players.FindIndex(p => p.name.Equals(playerName, StringComparison.OrdinalIgnoreCase));
+            return position.Players.FindIndex(p => p.name.Equals(playerName,StringComparison.OrdinalIgnoreCase));
         }
 
         private NFLDepthChart GetNFLDepthChart()
         {
-            return JsonConvert.DeserializeObject<NFLDepthChart>(File.ReadAllText("NFLDepthChart.json"));
+            using (var fs = new FileStream("NFLDepthChart.json", FileMode.Open, FileAccess.Read))
+            {
+                using (var sr = new StreamReader(fs, Encoding.UTF8))
+                {
+                    return JsonConvert.DeserializeObject<NFLDepthChart>(sr.ReadToEnd());
+                }
+            }
         }
 
         private NFLTeam GetNFLTeam()
         {
-            return JsonConvert.DeserializeObject<NFLTeam>(File.ReadAllText("NFLPlayers.json"));
+            using (var fs = new FileStream("NFLPlayers.json", FileMode.Open, FileAccess.Read))
+            {
+                using (var sr = new StreamReader(fs, Encoding.UTF8))
+                {
+                    return JsonConvert.DeserializeObject<NFLTeam>(sr.ReadToEnd());
+                }
+            }
         }
     }
 }
