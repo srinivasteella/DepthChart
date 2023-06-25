@@ -28,7 +28,7 @@ This Depth Chart API allows Add and Remove and provides the official player rank
 
 > Download/install   	
 
-> 1. [![VS2022](https://img.shields.io/badge/VS-2022-blue.svg)](https://git-scm.com/downloads) 
+> 1. [![VS2022](https://img.shields.io/badge/VS-2022-blue.svg)](https://visualstudio.microsoft.com/vs/) 
 >	2. [![.Net Framework](https://img.shields.io/badge/-.NET%206.0-blueviolet)](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.411-windows-x64-installer)
 
 | # |Package | Recommended Version
