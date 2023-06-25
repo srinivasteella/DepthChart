@@ -10,11 +10,21 @@
           "Position": [
             {
               "Type": "C",
-              "Players": []
+              "Players": [
+                {
+                  "number": "13",
+                  "name": "Mike Evans"
+                }
+              ]
             },
             {
               "Type": "LWR",
-              "Players": []
+              "Players": [
+                {
+                  "number": "12",
+                  "name": "Tom Brady"
+                }
+              ]
             },
             {
               "Type": "RWR",
